@@ -47,22 +47,10 @@ class AppleController extends Controller
     }
 
     /**
-     * Displays a single Apple model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
      * Creates a new Apple model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
+     * @throws \Throwable
      */
     public function actionCreate()
     {
@@ -77,23 +65,27 @@ class AppleController extends Controller
     }
 
     /**
-     * Updates an existing Apple model.
-     * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+     *
      */
-    public function actionUpdate($id)
+    public function actionFall($id)
     {
-        $model = $this->findModel($id);
+        $model = Apple::findOne($id);
+        $model->status = Apple::APPLE_ON_GROUND;
+        $model->update();
+        return $this->redirect('index');
+    }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+    /**
+     * @param integer $id
+     * @return mixed
+     *
+     */
+    public function actionEat($id)
+    {
+        $model = Apple::findOne($id);
+        return false;
     }
 
     /**
@@ -101,7 +93,7 @@ class AppleController extends Controller
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+     * @throws NotFoundHttpException
      */
     public function actionDelete($id)
     {
@@ -125,4 +117,5 @@ class AppleController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
 }

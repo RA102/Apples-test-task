@@ -46,7 +46,18 @@ $this->params['breadcrumbs'][] = $this->title;
             'status',
             'how_much_eat',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '<div class="btn-group">{fall}{eat}{delete}',
+                'buttons' => [
+                    'fall' => function ($url, $model, $key) {
+                        return Html::a('', ['apple/fall/', 'id' => $model->id], ['class' => 'glyphicon glyphicon-arrow-down']);
+                    },
+                    'eat' => function ($url, $model, $key) {
+                        return Html::a('', ['apple/eat', 'id' => $model->id], ['class' => 'glyphicon glyphicon-adjust']);
+                    },
+                ],
+            ],
         ],
     ]); ?>
 
