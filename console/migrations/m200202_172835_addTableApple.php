@@ -14,10 +14,11 @@ class m200202_172835_addTableApple extends Migration
     {
         $this->createTable("apple",[
             'id' => $this->primaryKey(),
-            'created_at' => $this->timestamp(),
-            'updated_at' => $this->timestamp(),
-            'status' => $this->integer(),
-            'how_much_eat' => $this->decimal(3, 2),
+            'color' => $this->string(),
+            'created_at' => $this->integer(),
+            'updated_at' => $this->integer()->defaultValue(null),
+            'status' => $this->smallInteger()->defaultValue(0),
+            'how_much_eat' => $this->decimal(3, 2)->defaultValue(1),
         ]);
 
     }
@@ -30,18 +31,26 @@ class m200202_172835_addTableApple extends Migration
         $this->dropTable('apple');
     }
 
-    /*
+
     // Use up()/down() to run migration code without a transaction.
+/*
     public function up()
     {
+        $this->createTable("apple",[
+            'id' => $this->primaryKey(),
+            'color' => $this->string(),
+            'created_at' => $this->integer(),
+            'updated_at' => $this->integer(),
+            'status' => $this->integer(),
+            'how_much_eat' => $this->decimal(3, 2),
+        ]);
 
     }
 
     public function down()
     {
-        echo "m200202_172835_addTableApple cannot be reverted.\n";
-
-        return false;
+        $this->dropTable('apple');
     }
-    */
+*/
+
 }
