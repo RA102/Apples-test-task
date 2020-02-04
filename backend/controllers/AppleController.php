@@ -96,8 +96,11 @@ class AppleController extends Controller
      */
     public function actionEat($id)
     {
-        $request = Yii::$app->request;
         $model = Apple::findOne($id);
+        if ($model->status != 10) {
+            return 'Нельзя съесть';
+        }
+        $request = Yii::$app->request;
         if ($model->status != 10) {
             throw new ExceptionClass('Съесть нельзя на дереве');
         }

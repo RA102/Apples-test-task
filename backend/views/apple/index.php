@@ -23,12 +23,24 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'filterPosition' => false,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'color',
+            'color' => [
+                'contentOptions' => [
+                    'style' => 'width: 100px;',
+                ],
+                'label' => 'Цвет',
+                'value' => function ($data) {
+                    return $data->color;
+                }
+            ],
             'created_at' => [
+                'contentOptions' => [
+                    'style' => 'width: 150px;',
+                ],
                 'label' => 'Создано',
                 'format' => 'time',
                 'value' => function ($data) {
@@ -37,6 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'updated_at' => [
                 'label' => 'Упало',
+
                 'format' => 'time',
                 'value' => function ($data) {
                     return $data->updated_at;
@@ -44,11 +57,19 @@ $this->params['breadcrumbs'][] = $this->title;
 
             ],
             'status',
-            'how_much_eat',
+            'how_much_eat' => [
+                'contentOptions' => [
+                    'style' => 'width: 200px',
+                ],
+                'label' => 'Сколько осталось',
+                'value' => function ($data) {
+                    return $data->how_much_eat;
+                }
+            ],
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '<div class="btn-group">{fall}{eat}{delete}',
+                'template' => '<span class="mr-lg-2">{fall}</span><span class="mr-2">{eat}</span><span>{delete}</span> ',
                 'buttons' => [
                     'fall' => function ($url, $model, $key) {
                         return Html::a('', ['apple/fall/', 'id' => $model->id], ['class' => 'glyphicon glyphicon-arrow-down']);
