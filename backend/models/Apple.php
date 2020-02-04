@@ -38,7 +38,6 @@ class Apple extends ActiveRecord
                 'class' => TimestampBehavior::className(),
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
                 ]
             ]
         ];
@@ -73,4 +72,5 @@ class Apple extends ActiveRecord
             'how_much_eat' => 'How Much Eat',
         ];
     }
+
 }

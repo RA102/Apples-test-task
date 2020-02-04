@@ -36,10 +36,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             'updated_at' => [
-                    'label' => 'Упало',
+                'label' => 'Упало',
                 'format' => 'time',
-                'value' => function($data) {
-        return $data->updated_at;
+                'value' => function ($data) {
+                    return $data->updated_at;
                 }
 
             ],
@@ -54,12 +54,54 @@ $this->params['breadcrumbs'][] = $this->title;
                         return Html::a('', ['apple/fall/', 'id' => $model->id], ['class' => 'glyphicon glyphicon-arrow-down']);
                     },
                     'eat' => function ($url, $model, $key) {
-                        return Html::a('', ['apple/eat', 'id' => $model->id], ['class' => 'glyphicon glyphicon-adjust']);
+                        return Html::a('', ['apple/eat', 'id' => $model->id], ['class' => 'glyphicon glyphicon-adjust eat-apple']);
                     },
                 ],
             ],
         ],
     ]); ?>
-
-
 </div>
+<!--модальное окно-->
+
+    <div id="myModal" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Сколько съесть</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="modal-form" name="modal-form">
+                        <input id="countEat" class="form-control" name="eat">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    <button id="send" type="button" class="btn btn-primary">Съесть</button>
+                </div>
+            </div><!-- /.модальное окно-Содержание -->
+        </div><!-- /.модальное окно-диалог -->
+    </div><!-- /.модальное окно -->
+
+<?php
+$js = <<<JS
+$('.eat-apple').on('click', function(event) {
+    event.preventDefault();
+    let url = $(this).attr('href');
+    $('#myModal').modal('show');
+    $('#send').on('click', function() {
+        let valueInput = $('#modal-form').serialize();
+        $('#myModal').modal('hide');
+        $.ajax({
+            url: url,
+            data: valueInput,
+        });
+    });
+    
+});
+JS;
+$this->registerJs($js);
+
+?>
