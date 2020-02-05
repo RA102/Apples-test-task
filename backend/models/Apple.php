@@ -2,9 +2,11 @@
 
 namespace backend\models;
 
+use app\models\Status;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use function Sodium\compare;
 
 /**
  * This is the model class for table "apple".
@@ -13,14 +15,16 @@ use yii\db\ActiveRecord;
  * @property string|null $color
  * @property int|null $created_at
  * @property int|null $updated_at
- * @property int|null $status
- * @property float|null $how_much_eat
+ * @property int|null $status_id
+ * @property float|null $how_much_left
+ * @property int|null $point_no_return
  */
 class Apple extends ActiveRecord
 {
-    const APPLE_ON_TREE = 0;
-    const APPLE_ON_GROUND = 10;
-    const APPLE_ROT = 11;
+    const APPLE_ON_TREE = 1;
+    const APPLE_ON_GROUND = 2;
+    const APPLE_ROT = 3;
+
 
 
     /**
@@ -49,11 +53,14 @@ class Apple extends ActiveRecord
     public function rules()
     {
         return [
-            [['created_at', 'updated_at'], 'integer'],
-            ['status', 'default', 'value' => [self::APPLE_ON_TREE]],
-            ['status', 'in', 'range' => [self::APPLE_ON_TREE, self::APPLE_ON_GROUND, self::APPLE_ROT]],
-            [['how_much_eat'], 'number'],
-            ['how_much_eat', 'default', 'value' => 1],
+            [['created_at'], 'integer'],
+            ['updated_at', 'compare', ],
+            ['point_no_return', 'integer'],
+            ['status_id', 'default', 'value' => [self::APPLE_ON_TREE]],
+            ['status_id', 'in', 'range' => [self::APPLE_ON_TREE, self::APPLE_ON_GROUND, self::APPLE_ROT]],
+            [['how_much_left'], 'number'],
+            ['how_much_left', 'default', 'value' => 1],
+//            ['how_much_left', 'compare', 'compareAttribute' => 'status_id', 'compareValue' => '1', 'operator' => '=',  'message' => 'Нельзя съесть'],
             [['color'], 'string', 'max' => 255],
         ];
     }
@@ -68,9 +75,20 @@ class Apple extends ActiveRecord
             'color' => 'Color',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'status' => 'Status',
-            'how_much_eat' => 'How Much Eat',
+            'point_no_return' => 'Point No Return',
+            'status_id' => 'Status',
+            'how_much_left' => 'How Much Left',
         ];
+    }
+
+    /**
+     *
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStatus()
+    {
+        return $this->hasOne(Status::className(), ['id' => 'status_id']);
     }
 
 }

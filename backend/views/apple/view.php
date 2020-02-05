@@ -33,8 +33,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'color',
             'created_at',
             'updated_at',
-            'status',
-            'how_much_eat',
+            'status_id',
+            'how_much_left',
         ],
     ]) ?>
 

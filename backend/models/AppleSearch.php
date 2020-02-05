@@ -17,9 +17,9 @@ class AppleSearch extends Apple
     public function rules()
     {
         return [
-            [['id', 'created_at', 'updated_at', 'status'], 'integer'],
+            [['id', 'created_at', 'updated_at', 'status_id'], 'integer'],
             [['color'], 'safe'],
-            [['how_much_eat'], 'number'],
+            [['how_much_left'], 'number'],
         ];
     }
 
@@ -62,8 +62,8 @@ class AppleSearch extends Apple
             'id' => $this->id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'status' => $this->status,
-            'how_much_eat' => $this->how_much_eat,
+            'status_id' => $this->status_id,
+            'how_much_left' => $this->how_much_left,
         ]);
 
         $query->andFilterWhere(['like', 'color', $this->color]);

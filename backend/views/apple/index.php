@@ -56,28 +56,51 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
 
             ],
-            'status',
-            'how_much_eat' => [
+            'status_id' => [
+                'label' => 'Статус',
+                'value' => function ($data) {
+                    return $data->status->name;
+                }
+            ],
+            'how_much_left' => [
                 'contentOptions' => [
                     'style' => 'width: 200px',
                 ],
-                'label' => 'Сколько осталось',
+                'label' => 'Осталось',
                 'value' => function ($data) {
-                    return $data->how_much_eat;
+                    return $data->how_much_left;
                 }
             ],
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '<span class="mr-lg-2">{fall}</span><span class="mr-2">{eat}</span><span>{delete}</span> ',
+                'template' => '<span class="mr-2">{fall}</span><span class="mr-2">{eat}</span>',
+                'header' => 'Упасть',
+                'contentOptions' => [ 'style' => 'width: 60px; text-align: center'],
                 'buttons' => [
                     'fall' => function ($url, $model, $key) {
                         return Html::a('', ['apple/fall/', 'id' => $model->id], ['class' => 'glyphicon glyphicon-arrow-down']);
                     },
+                ],
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '<span class="">{eat}</span>',
+                'header' => 'Откусить',
+                'contentOptions' => [ 'style' => 'width: 60px; text-align: center'],
+                'buttons' => [
                     'eat' => function ($url, $model, $key) {
                         return Html::a('', ['apple/eat', 'id' => $model->id], ['class' => 'glyphicon glyphicon-adjust eat-apple']);
                     },
                 ],
+
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'header' => 'Удалить',
+                'contentOptions' => [ 'style' => 'width: 60px; text-align: center'],
+                'template' => '<span class="">{delete}</span>',
+
             ],
         ],
     ]); ?>
@@ -118,8 +141,18 @@ $('.eat-apple').on('click', function(event) {
         $.ajax({
             url: url,
             data: valueInput,
-        });
+            success: function(data) {
+                $('#myModal').modal('show');
+                $('.modal-title').text(data);
+                $('.modal-body').detach();
+                $('#send').detach();
+                $('.modal-backdrop').delay(300).fadeOut("fast");
+            }
+        }); 
     });
+    
+    
+    
     
 });
 JS;
