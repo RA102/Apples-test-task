@@ -81,10 +81,11 @@ class AppleController extends Controller
      */
     public function actionFall($id)
     {
+        $fiveHoursUnix = 18;
         $model = Apple::findOne($id);
         $model->status_id = Apple::APPLE_ON_GROUND;
         $model->touch("updated_at");
-        $model->point_no_return = ($model->updated_at) + 18000;
+        $model->point_no_return = ($model->updated_at) + $fiveHoursUnix;
         $model->update();
         return $this->redirect('index');
     }
@@ -98,21 +99,13 @@ class AppleController extends Controller
     {
         $model = Apple::findOne($id);
         $request = Yii::$app->request;
-//        $diffTime = Timestamp::class;
-//        $diffTime->too
         if ($request->isAjax) {
-//            if ($model->status_id == 1) {
-//                return 'Съесть не получится - не дереве';
-//            } else if ($model->status_id == 3) {
-//                return 'Съесть не поулчится  - сгнило ';
-//            } else {
+            $countEat = $request->queryParams;
+            $howMuchLeft = $model->how_much_left;
+            $model->how_much_left = (($howMuchLeft - $countEat['eat'] / 100) <= 0) ? $this->actionDelete($id) : $howMuchLeft - $countEat['eat'] / 100;
+            $model->save();
+            return $this->redirect('index');
 
-                $countEat = $request->queryParams;
-                $howMuchLeft = $model->how_much_left;
-                $model->how_much_left = (($howMuchLeft - $countEat['eat'] / 100) <= 0) ? $this->actionDelete($id) : $howMuchLeft - $countEat['eat'] / 100;
-                $model->save();
-                return $this->redirect('index');
-            //}
         }
         return $this->redirect('index');
     }

@@ -54,15 +54,26 @@ class Apple extends ActiveRecord
     {
         return [
             [['created_at'], 'integer'],
-            ['updated_at', 'compare', 'compareAttribute' => 'point_no_return', 'operator' => '>'],
+            ['updated_at', 'integer'],
+            ['updated_at', 'compare', 'compareAttribute' => 'point_no_return', 'operator' => '>', 'message' => 'Испорчено'],
             ['point_no_return', 'integer'],
             ['status_id', 'default', 'value' => [self::APPLE_ON_TREE]],
             ['status_id', 'in', 'range' => [self::APPLE_ON_TREE, self::APPLE_ON_GROUND, self::APPLE_ROT]],
             [['how_much_left'], 'number'],
             ['how_much_left', 'default', 'value' => 1],
+            ['how_much_left', 'checkStatus'],
 //            ['how_much_left', 'compare', 'compareAttribute' => 'status_id', 'compareValue' => '1', 'operator' => '=',  'message' => 'Нельзя съесть'],
             [['color'], 'string', 'max' => 255],
         ];
+    }
+
+    public function checkStatus($compareAttribute, $params)
+    {
+        if ($this->updated_at > $this->point_no_return) {
+            return
+        }
+
+        var_dump($compareAttribute, $params);
     }
 
     /**
