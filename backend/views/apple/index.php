@@ -56,6 +56,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
 
             ],
+            'point_no_return' => [
+                'label' => 'Точка не возврата',
+                'format' => 'time',
+                'value' => function ($data) {
+                    return $data->point_no_return;
+                }
+            ],
             'status_id' => [
                 'label' => 'Статус',
                 'value' => function ($data) {

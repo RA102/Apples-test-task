@@ -54,7 +54,7 @@ class Apple extends ActiveRecord
     {
         return [
             [['created_at'], 'integer'],
-            ['updated_at', 'compare', ],
+            ['updated_at', 'compare', 'compareAttribute' => 'point_no_return', 'operator' => '>'],
             ['point_no_return', 'integer'],
             ['status_id', 'default', 'value' => [self::APPLE_ON_TREE]],
             ['status_id', 'in', 'range' => [self::APPLE_ON_TREE, self::APPLE_ON_GROUND, self::APPLE_ROT]],
@@ -75,9 +75,9 @@ class Apple extends ActiveRecord
             'color' => 'Color',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'point_no_return' => 'Point No Return',
             'status_id' => 'Status',
             'how_much_left' => 'How Much Left',
+            'point_no_return' => 'Point No Return',
         ];
     }
 

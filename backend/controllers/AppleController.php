@@ -84,6 +84,7 @@ class AppleController extends Controller
         $model = Apple::findOne($id);
         $model->status_id = Apple::APPLE_ON_GROUND;
         $model->touch("updated_at");
+        $model->point_no_return = ($model->updated_at) + 18000;
         $model->update();
         return $this->redirect('index');
     }
